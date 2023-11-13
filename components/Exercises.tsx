@@ -14,9 +14,11 @@ interface Exercise {
   sets: Set[];
 }
 
-const Exercises: React.FC = () => {
+const Exercises: React.FC = (exercise) => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [editableExercises, setEditableExercises] = useState<Exercise[]>([]);
+  const [sets, setSets] = useState<Set[]>([]);
+
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -78,6 +80,18 @@ const Exercises: React.FC = () => {
     );
   };
 
+  const addNewSet = (exerciseId: string) => {
+    const newSet = { weight: 1, reps: 0 }; // Default values
+    setEditableExercises(
+      editableExercises.map((exercise) => {
+        if (exercise._id === exerciseId) {
+          return { ...exercise, sets: [...exercise.sets, newSet] };
+        }
+        return exercise;
+      })
+    );
+  };
+
   const saveSets = async (exerciseId: string) => {
     const exercise = editableExercises.find((ex) => ex._id === exerciseId);
     if (!exercise) return;
@@ -112,51 +126,68 @@ const Exercises: React.FC = () => {
       {editableExercises.map((exercise) => (
         <div
           key={exercise._id}
-          className="border-2 border-solid rounded-xl p-6 m-2"
+          className="border-2 border-solid rounded-xl p-6 m-2 flex flex-col"
         >
           <h2 className="font-bold text-xl flex justify-center">
             {exercise.name}
           </h2>
           {exercise.sets.map((set, index) => (
-            <div key={index} className="flex justify-between">
-              <div>
+            <div key={index}>
+              <div className="border border-solid rounded m-1 mt-5">
                 <span className="font-bold">Set {index + 1}:</span>
                 <label>
-                  Weight (kg):
-                  <input
-                    type="number"
-                    value={set.weight}
-                    onChange={(e) =>
-                      handleSetChange(
-                        exercise._id,
-                        index,
-                        "weight",
-                        Number(e.target.value)
-                      )
-                    }
-                    className="bg-gray-100 text-black p-1" // Custom styles
-                  />
+                  <div className="flex justify-around">
+                    <span className="text-teal-300 p-2">Weight(kg):</span>
+                    <input
+                      type="number"
+                      value={set.weight}
+                      onChange={(e) =>
+                        handleSetChange(
+                          exercise._id,
+                          index,
+                          "weight",
+                          Number(e.target.value)
+                        )
+                      }
+                      className="bg-black text-teal-300 p-1 border border-solid rounded w-full" // Custom styles
+                    />
+                    <input type="checkbox" className="m-2 w-9" />
+                  </div>
                 </label>
                 <label>
-                  Reps:
-                  <input
-                    type="number"
-                    value={set.reps}
-                    onChange={(e) =>
-                      handleSetChange(
-                        exercise._id,
-                        index,
-                        "reps",
-                        Number(e.target.value)
-                      )
-                    }
-                    className="bg-gray-100 text-black p-1" // Custom styles
-                  />
+                  <div className="flex justify-around">
+                    <span className="text-cyan-300 p-2">Reps:</span>
+                    <input
+                      type="number"
+                      value={set.reps}
+                      onChange={(e) =>
+                        handleSetChange(
+                          exercise._id,
+                          index,
+                          "reps",
+                          Number(e.target.value)
+                        )
+                      }
+                      className="bg-black text-cyan-300 p-1 border border-solid rounded w-full" // Custom styles
+                    />
+                    <input type="checkbox" className="m-2 w-7" />
+                  </div>
                 </label>
               </div>
             </div>
           ))}
-          <button onClick={() => saveSets(exercise._id)}>Save Changes</button>
+          <button
+            className="text-black bg-white border border-solid rounded font-semibold my-2"
+            onClick={() => addNewSet(exercise._id)}
+          >
+            Add Set
+          </button>
+          <button
+            className="text-black bg-white border border-solid rounded font-semibold"
+            onClick={() => saveSets(exercise._id)}
+          >
+            Save Changes
+          </button>
         </div>
       ))}
     </main>
