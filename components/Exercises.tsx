@@ -55,11 +55,19 @@ const Exercises: React.FC = () => {
       <h1 className="font-bold text-2xl flex justify-center">Exercises</h1>
       {exercises.map((exercise) => (
         <div key={exercise._id}>
-          <div>
-            <h2 className="font-bold text-xl">{exercise.name}</h2>
+          <div className="border-2 border-solid rounded-xl p-6 m-2">
+            <h2 className="font-bold text-xl flex justify-center">
+              {exercise.name}
+            </h2>
             {exercise.sets.map((set, index) => (
-              <div key={index}>
-                Set{index + 1}: Weight = {set.weight} kg Reps = {set.reps}
+              <div key={index} className="flex justify-between">
+                <div>
+                  <span className="font-bold"> Set {index + 1}: </span>{" "}
+                  <span className="text-teal-300">Weight =</span> {set.weight}{" "}
+                  kg <span className="text-cyan-300">Reps = </span>
+                  {set.reps}
+                </div>
+                <input type="checkbox" />
               </div>
             ))}
           </div>
