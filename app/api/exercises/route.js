@@ -137,3 +137,42 @@ export async function PATCH(request) {
     );
   }
 }
+
+export async function DELETE(request) {
+  await connectDb();
+
+  const { exerciseId } = await request.json(); // Assuming exerciseId is in the request body
+
+  // Validate the required field
+  if (!exerciseId) {
+    return NextResponse.json(
+      { message: "Exercise ID is required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const deletedExercise = await Exercise.findByIdAndDelete(exerciseId);
+
+    if (!deletedExercise) {
+      return NextResponse.json(
+        { message: "Exercise not found" },
+        { status: 404 }
+      );
+    }
+
+    // Optionally, you can also update the workout to remove the reference to the deleted exercise
+    // if your data model requires it.
+
+    return NextResponse.json(
+      { message: "Exercise deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error in deleting exercise:", error);
+    return NextResponse.json(
+      { message: "Error deleting exercise", error: error.message },
+      { status: 500 }
+    );
+  }
+}

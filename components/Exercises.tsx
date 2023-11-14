@@ -90,6 +90,29 @@ const Exercises: React.FC = (exercise) => {
     }
   };
 
+  const deleteExercise = async (exerciseId: string) => {
+    try {
+      const response = await fetch(`/api/exercises`, {
+        // Adjusted endpoint if needed
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ exerciseId }), // Sending exerciseId in the request body
+      });
+
+      if (!response.ok) {
+        console.error("Error deleting exercise:", response.statusText);
+        return;
+      }
+
+      // Update exercises state to remove the deleted exercise
+      setExercises(exercises.filter((exercise) => exercise._id !== exerciseId));
+    } catch (error) {
+      console.error("Error in deleteExercise function:", error);
+    }
+  };
+
   const handleSetChange = (
     exerciseId: string,
     setIndex: number,
@@ -241,6 +264,12 @@ const Exercises: React.FC = (exercise) => {
             onClick={() => saveSets(exercise._id)}
           >
             Save Changes
+          </button>
+          <button
+            className="text-red-500 hover:text-red-700"
+            onClick={() => deleteExercise(exercise._id)}
+          >
+            Delete Exercise
           </button>
         </div>
       ))}
