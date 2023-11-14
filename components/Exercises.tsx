@@ -190,13 +190,28 @@ const Exercises: React.FC = (exercise) => {
   // ... rest of your component
 
   return (
-    <main className="m-6">
+    <main className="m-6 flex items-center flex-col">
       <h1 className="font-bold text-2xl flex justify-center">Exercises</h1>
+      <div className="my-4 flex-col flex m-2 border-2 border-solid rounded p-2 max-w-lg">
+        <input
+          type="text"
+          value={newExerciseName}
+          onChange={(e) => setNewExerciseName(e.target.value)}
+          placeholder="Exercise Name"
+          className="bg-black"
+        />
+        <button
+          onClick={addNewExercise}
+          className="border-2 border-solid rounded font-semibold text-yellow-300 "
+        >
+          Add Exercise
+        </button>
+      </div>
 
       {editableExercises.map((exercise) => (
         <div
           key={exercise._id}
-          className="border-2 border-solid rounded-xl p-6 m-2 flex flex-col"
+          className="border-2 border-solid rounded-xl p-6 m-2 max-w-lg "
         >
           <h2 className="font-bold text-xl flex justify-center">
             {exercise.name}
@@ -275,21 +290,6 @@ const Exercises: React.FC = (exercise) => {
           </div>
         </div>
       ))}
-      <div className="my-4 flex-col flex m-2 border-2 border-solid rounded p-2">
-        <input
-          type="text"
-          value={newExerciseName}
-          onChange={(e) => setNewExerciseName(e.target.value)}
-          placeholder="Enter New Exercise Name"
-          className="bg-black "
-        />
-        <button
-          onClick={addNewExercise}
-          className="border-2 border-solid rounded font-semibold text-yellow-300"
-        >
-          Add Exercise
-        </button>
-      </div>
     </main>
   );
 };
