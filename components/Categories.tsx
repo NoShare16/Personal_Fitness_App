@@ -10,6 +10,7 @@ interface Category {
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -28,11 +29,70 @@ const Categories = () => {
     fetchCategories();
   }, []);
 
+  const createCategory = async () => {
+    if (!newCategoryName.trim()) return;
+
+    try {
+      const response = await fetch("http://127.0.0.1:3000/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategoryName }),
+      });
+
+      if (!response.ok) {
+        console.error("Error creating category:", response.statusText);
+        return;
+      }
+
+      const newCategory = await response.json();
+      setCategories([...categories, newCategory]);
+      setNewCategoryName("");
+    } catch (error) {
+      console.error("Error adding new category:", error);
+    }
+  };
+
+  const deleteCategory = async (categoryId: string) => {
+    try {
+      const response = await fetch("http://127.0.0.1:3000/api/categories", {
+        // Adjust the endpoint as necessary
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ categoryId }),
+      });
+
+      if (!response.ok) {
+        console.error("Error deleting category:", response.statusText);
+        return;
+      }
+
+      setCategories(
+        categories.filter((category) => category._id !== categoryId)
+      );
+    } catch (error) {
+      console.error("Error in deleteCategory function:", error);
+    }
+  };
+
   return (
     <>
-      <h1 className="font-bold text-2xl flex justify-center">Categories</h1>
+      <h1 className="font-bold text-2xl flex justify-center m-4">Categories</h1>
+
+      <div className="my-4 border-2 border-solid rounded-xl flex flex-col gap-2 mx-14 p-4 ">
+        <input
+          type="text"
+          value={newCategoryName}
+          onChange={(e) => setNewCategoryName(e.target.value)}
+          placeholder="Category Name"
+          className="bg-black"
+        />
+        <button onClick={createCategory} className="text-yellow-300">
+          Create Category
+        </button>
+      </div>
+
       {categories.map((category) => (
-        <main className="m-6 cursor-pointer" key={category._id}>
+        <main className="m-6 cursor-pointer flex flex-col" key={category._id}>
           <Link
             href={{
               pathname: "/workouts",
@@ -45,6 +105,12 @@ const Categories = () => {
               </div>
             </section>
           </Link>
+          <button
+            onClick={() => deleteCategory(category._id)}
+            className="text-red-500"
+          >
+            Delete Category
+          </button>
         </main>
       ))}
     </>

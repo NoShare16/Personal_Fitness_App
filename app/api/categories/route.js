@@ -16,10 +16,28 @@ export async function GET() {
 }
 
 export async function DELETE(request) {
-  const { id } = await request.json();
+  const { categoryId } = await request.json();
   await connectDb();
-  await Category.findByIdAndDelete(id);
-  return NextResponse.json({ message: "Category deleted" }, { status: 200 });
+
+  try {
+    const deletedCategory = await Category.findByIdAndDelete(categoryId);
+    if (!deletedCategory) {
+      console.log(`No category found with ID: ${categoryId}`);
+      return NextResponse.json(
+        { message: "Category not found" },
+        { status: 404 }
+      );
+    }
+
+    console.log(`Deleted category: ${deletedCategory}`);
+    return NextResponse.json({ message: "Category deleted" }, { status: 200 });
+  } catch (error) {
+    console.error("Error in DELETE API:", error);
+    return NextResponse.json(
+      { message: "Error deleting category", error: error.message },
+      { status: 500 }
+    );
+  }
 }
 
 export async function PUT(request) {
