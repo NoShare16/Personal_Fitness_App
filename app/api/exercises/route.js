@@ -87,3 +87,53 @@ export async function GET(request) {
     });
   }
 }
+
+export async function PATCH(request) {
+  await connectDb();
+
+  const { exerciseId, sets } = await request.json();
+
+  // Validate the required fields
+  if (!exerciseId) {
+    return NextResponse.json(
+      { message: "Exercise ID is required" },
+      { status: 400 }
+    );
+  }
+
+  if (!Array.isArray(sets) || sets.length === 0) {
+    return NextResponse.json(
+      { message: "At least one set is required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const updatedExercise = await Exercise.findByIdAndUpdate(
+      exerciseId,
+      { sets },
+      { new: true, runValidators: true, useFindAndModify: false }
+    );
+
+    if (!updatedExercise) {
+      return NextResponse.json(
+        { message: "Exercise not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        message: "Exercise updated successfully",
+        data: updatedExercise,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error in updating exercise:", error);
+    return NextResponse.json(
+      { message: "Error updating exercise", error: error.message },
+      { status: 500 }
+    );
+  }
+}
