@@ -253,24 +253,26 @@ const Exercises: React.FC = (exercise) => {
               </div>
             </div>
           ))}
-          <button
-            className="text-black bg-white border border-solid rounded font-semibold my-2"
-            onClick={() => addNewSet(exercise._id)}
-          >
-            Add Set
-          </button>
-          <button
-            className="text-black bg-white border border-solid rounded font-semibold"
-            onClick={() => saveSets(exercise._id)}
-          >
-            Save Changes
-          </button>
-          <button
-            className="text-red-500 hover:text-red-700"
-            onClick={() => deleteExercise(exercise._id)}
-          >
-            Delete Exercise
-          </button>
+          <div className="flex-col flex gap-4 mt-2">
+            <button
+              className="text-black bg-white border border-solid rounded font-semibold "
+              onClick={() => addNewSet(exercise._id)}
+            >
+              Add Set
+            </button>
+            <button
+              className="text-black bg-white border border-solid rounded font-semibold"
+              onClick={() => saveSets(exercise._id)}
+            >
+              Save Changes
+            </button>
+            <button
+              className="text-red-500 border border-solid rounded"
+              onClick={() => deleteExercise(exercise._id)}
+            >
+              Delete Exercise
+            </button>
+          </div>
         </div>
       ))}
       <div className="my-4 flex-col flex m-2 border-2 border-solid rounded p-2">
