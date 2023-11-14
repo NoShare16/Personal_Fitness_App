@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Timer from "./Timer";
 
 interface Set {
   weight: number;
@@ -137,6 +138,7 @@ const Exercises: React.FC = (exercise) => {
   return (
     <main className="m-6">
       <h1 className="font-bold text-2xl flex justify-center">Exercises</h1>
+
       {editableExercises.map((exercise) => (
         <div
           key={exercise._id}
@@ -145,6 +147,7 @@ const Exercises: React.FC = (exercise) => {
           <h2 className="font-bold text-xl flex justify-center">
             {exercise.name}
           </h2>
+          <Timer />
           {exercise.sets.map((set, index) => (
             <div key={index}>
               <div className="border border-solid rounded m-1 mt-5">
