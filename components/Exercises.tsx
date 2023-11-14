@@ -118,6 +118,20 @@ const Exercises: React.FC = (exercise) => {
     }
   };
 
+  const deleteSet = (exerciseId: string, setIndex: number) => {
+    setEditableExercises(
+      editableExercises.map((exercise) => {
+        if (exercise._id === exerciseId) {
+          const updatedSets = exercise.sets.filter(
+            (_, index) => index !== setIndex
+          );
+          return { ...exercise, sets: updatedSets };
+        }
+        return exercise;
+      })
+    );
+  };
+
   // ... rest of your component
 
   return (
@@ -134,10 +148,16 @@ const Exercises: React.FC = (exercise) => {
           {exercise.sets.map((set, index) => (
             <div key={index}>
               <div className="border border-solid rounded m-1 mt-5">
-                <span className="font-bold">Set {index + 1}:</span>
+                <span className="font-bold p-2">Set {index + 1}:</span>
+                <button
+                  onClick={() => deleteSet(exercise._id, index)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  Delete
+                </button>
                 <label>
                   <div className="flex justify-around">
-                    <span className="text-teal-300 p-2">Weight(kg):</span>
+                    <span className="text-teal-300 p-2 w-60">Weight(kg):</span>
                     <input
                       type="number"
                       value={set.weight}
@@ -156,7 +176,7 @@ const Exercises: React.FC = (exercise) => {
                 </label>
                 <label>
                   <div className="flex justify-around">
-                    <span className="text-cyan-300 p-2">Reps:</span>
+                    <span className="text-cyan-300 p-2 w-60">Reps:</span>
                     <input
                       type="number"
                       value={set.reps}
@@ -170,7 +190,7 @@ const Exercises: React.FC = (exercise) => {
                       }
                       className="bg-black text-cyan-300 p-1 border border-solid rounded w-full" // Custom styles
                     />
-                    <input type="checkbox" className="m-2 w-7" />
+                    <input type="checkbox" className="m-2 w-9" />
                   </div>
                 </label>
               </div>
