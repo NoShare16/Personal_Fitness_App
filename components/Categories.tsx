@@ -15,7 +15,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:3000/api/categories");
+        const response = await fetch("/api/categories");
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
@@ -33,7 +33,7 @@ const Categories = () => {
     if (!newCategoryName.trim()) return;
 
     try {
-      const response = await fetch("http://127.0.0.1:3000/api/categories", {
+      const response = await fetch("/api/categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: newCategoryName }),
@@ -54,7 +54,7 @@ const Categories = () => {
 
   const deleteCategory = async (categoryId: string) => {
     try {
-      const response = await fetch("http://127.0.0.1:3000/api/categories", {
+      const response = await fetch("/api/categories", {
         // Adjust the endpoint as necessary
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
