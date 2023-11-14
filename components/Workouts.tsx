@@ -61,6 +61,7 @@ const Workouts: React.FC = () => {
       <h1 className="font-bold text-2xl flex justify-center">
         Workout Collection
       </h1>
+
       {workouts.map((workout) => (
         <section key={workout._id} className="flex flex-col justify-center m-4">
           <Link
@@ -71,6 +72,7 @@ const Workouts: React.FC = () => {
           >
             <div className="flex flex-col justify-center items-center border-2 border-solid border-white p-4 rounded-xl m-4">
               <h2 className="font-bold text-xl">{workout.name}</h2>
+
               {workout.exercises.map((exercise) => (
                 <div key={exercise._id} className="text-lg">
                   {exercise.name}
