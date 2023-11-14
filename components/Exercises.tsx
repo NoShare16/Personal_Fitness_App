@@ -19,8 +19,10 @@ const Exercises: React.FC = (exercise) => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [editableExercises, setEditableExercises] = useState<Exercise[]>([]);
   const [sets, setSets] = useState<Set[]>([]);
+  const [newExerciseName, setNewExerciseName] = useState("");
 
   const searchParams = useSearchParams();
+  const workoutId = searchParams.get("workoutId");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +60,35 @@ const Exercises: React.FC = (exercise) => {
     // Sync editableExercises state with exercises state
     setEditableExercises(exercises);
   }, [exercises]);
+
+  const addNewExercise = async () => {
+    if (!newExerciseName.trim()) return; // Basic validation
+
+    try {
+      const initialSet = { weight: 1, reps: 1 }; // Default set values
+      const response = await fetch("/api/exercises", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newExerciseName,
+          workoutId: workoutId,
+          sets: [initialSet], // Including default set
+        }),
+      });
+
+      if (!response.ok) {
+        // Handle response error...
+        console.error("Error creating exercise:", response.statusText);
+        return;
+      }
+
+      const newExercise = await response.json();
+      setExercises([...exercises, newExercise]);
+      setNewExerciseName(""); // Reset the input field after successful addition
+    } catch (error) {
+      console.error("Error adding new exercise:", error);
+    }
+  };
 
   const handleSetChange = (
     exerciseId: string,
@@ -213,6 +244,21 @@ const Exercises: React.FC = (exercise) => {
           </button>
         </div>
       ))}
+      <div className="my-4 flex-col flex m-2 border-2 border-solid rounded p-2">
+        <input
+          type="text"
+          value={newExerciseName}
+          onChange={(e) => setNewExerciseName(e.target.value)}
+          placeholder="Enter New Exercise Name"
+          className="bg-black "
+        />
+        <button
+          onClick={addNewExercise}
+          className="border-2 border-solid rounded font-semibold text-yellow-300"
+        >
+          Add Exercise
+        </button>
+      </div>
     </main>
   );
 };
