@@ -55,7 +55,6 @@ const Categories = () => {
   const deleteCategory = async (categoryId: string) => {
     try {
       const response = await fetch("/api/categories", {
-        // Adjust the endpoint as necessary
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ categoryId }),

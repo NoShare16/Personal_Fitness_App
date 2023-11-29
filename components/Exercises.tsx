@@ -57,34 +57,32 @@ const Exercises: React.FC = (exercise) => {
   }, [searchParams]);
 
   useEffect(() => {
-    // Sync editableExercises state with exercises state
     setEditableExercises(exercises);
   }, [exercises]);
 
   const addNewExercise = async () => {
-    if (!newExerciseName.trim()) return; // Basic validation
+    if (!newExerciseName.trim()) return;
 
     try {
-      const initialSet = { weight: 1, reps: 1 }; // Default set values
+      const initialSet = { weight: 1, reps: 1 };
       const response = await fetch("/api/exercises", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: newExerciseName,
           workoutId: workoutId,
-          sets: [initialSet], // Including default set
+          sets: [initialSet],
         }),
       });
 
       if (!response.ok) {
-        // Handle response error...
         console.error("Error creating exercise:", response.statusText);
         return;
       }
 
       const newExercise = await response.json();
       setExercises([...exercises, newExercise]);
-      setNewExerciseName(""); // Reset the input field after successful addition
+      setNewExerciseName("");
     } catch (error) {
       console.error("Error adding new exercise:", error);
     }
@@ -93,12 +91,11 @@ const Exercises: React.FC = (exercise) => {
   const deleteExercise = async (exerciseId: string) => {
     try {
       const response = await fetch(`/api/exercises`, {
-        // Adjusted endpoint if needed
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ exerciseId }), // Sending exerciseId in the request body
+        body: JSON.stringify({ exerciseId }),
       });
 
       if (!response.ok) {
@@ -106,7 +103,6 @@ const Exercises: React.FC = (exercise) => {
         return;
       }
 
-      // Update exercises state to remove the deleted exercise
       setExercises(exercises.filter((exercise) => exercise._id !== exerciseId));
     } catch (error) {
       console.error("Error in deleteExercise function:", error);
@@ -136,7 +132,7 @@ const Exercises: React.FC = (exercise) => {
   };
 
   const addNewSet = (exerciseId: string) => {
-    const newSet = { weight: 1, reps: 0 }; // Default values
+    const newSet = { weight: 1, reps: 0 };
     setEditableExercises(
       editableExercises.map((exercise) => {
         if (exercise._id === exerciseId) {
@@ -159,12 +155,10 @@ const Exercises: React.FC = (exercise) => {
       });
 
       if (!response.ok) {
-        // Handle response error...
         console.error("Error updating exercise:", response.statusText);
         return;
       }
 
-      // Update the main exercises state with the new sets
       setExercises(
         exercises.map((ex) => (ex._id === exerciseId ? exercise : ex))
       );
@@ -186,8 +180,6 @@ const Exercises: React.FC = (exercise) => {
       })
     );
   };
-
-  // ... rest of your component
 
   return (
     <main className="m-6 flex items-center flex-col">
@@ -241,7 +233,7 @@ const Exercises: React.FC = (exercise) => {
                           Number(e.target.value)
                         )
                       }
-                      className="bg-black text-teal-300 p-1 border border-solid rounded w-full" // Custom styles
+                      className="bg-black text-teal-300 p-1 border border-solid rounded w-full"
                     />
                     <input type="checkbox" className="m-2 w-9" />
                   </div>
@@ -260,7 +252,7 @@ const Exercises: React.FC = (exercise) => {
                           Number(e.target.value)
                         )
                       }
-                      className="bg-black text-cyan-300 p-1 border border-solid rounded w-full" // Custom styles
+                      className="bg-black text-cyan-300 p-1 border border-solid rounded w-full"
                     />
                     <input type="checkbox" className="m-2 w-9" />
                   </div>

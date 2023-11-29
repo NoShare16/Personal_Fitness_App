@@ -19,7 +19,6 @@ const Timer = () => {
   }, [timeLeft, timerActive, timerPaused]);
 
   useEffect(() => {
-    // Update timeLeft when selectedMinutes changes and the timer is not active
     if (!timerActive) {
       setTimeLeft(selectedMinutes * 60);
     }

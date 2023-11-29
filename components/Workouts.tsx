@@ -7,14 +7,12 @@ import Link from "next/link";
 interface Exercise {
   _id: string;
   name: string;
-  // Include other properties of Exercise as needed
 }
 
 interface Workout {
   _id: string;
   name: string;
   exercises: Exercise[];
-  // Include other properties as per your data model
 }
 
 const Workouts: React.FC = () => {

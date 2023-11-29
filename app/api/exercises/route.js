@@ -8,7 +8,6 @@ export async function POST(request) {
 
   const { name, workoutId, sets } = await request.json();
 
-  // Validate the required fields
   if (!name) {
     return NextResponse.json(
       { message: "Exercise name is required" },
@@ -44,7 +43,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         message: "Exercise created and added to workout",
-        data: exercise, // Return the newly created exercise
+        data: exercise,
       },
       { status: 201 }
     );
@@ -60,7 +59,6 @@ export async function POST(request) {
 export async function GET(request) {
   await connectDb();
 
-  // Extract the workout ID from the query parameters.
   const workoutId = request.nextUrl.searchParams.get("workoutId");
 
   if (!workoutId) {
@@ -71,12 +69,10 @@ export async function GET(request) {
   }
 
   try {
-    // Find the workouts that are linked to the given workout ID.
     const exercises = await Exercise.find({ workout: workoutId }).populate(
       "workout"
     );
 
-    // Send the response back.
     return new Response(JSON.stringify({ exercises }), {
       headers: { "Content-Type": "application/json" },
     });
@@ -93,7 +89,6 @@ export async function PATCH(request) {
 
   const { exerciseId, sets } = await request.json();
 
-  // Validate the required fields
   if (!exerciseId) {
     return NextResponse.json(
       { message: "Exercise ID is required" },
@@ -141,9 +136,8 @@ export async function PATCH(request) {
 export async function DELETE(request) {
   await connectDb();
 
-  const { exerciseId } = await request.json(); // Assuming exerciseId is in the request body
+  const { exerciseId } = await request.json();
 
-  // Validate the required field
   if (!exerciseId) {
     return NextResponse.json(
       { message: "Exercise ID is required" },
@@ -160,9 +154,6 @@ export async function DELETE(request) {
         { status: 404 }
       );
     }
-
-    // Optionally, you can also update the workout to remove the reference to the deleted exercise
-    // if your data model requires it.
 
     return NextResponse.json(
       { message: "Exercise deleted successfully" },
