@@ -74,6 +74,8 @@ const Workouts: React.FC = () => {
       const newWorkout = await response.json();
       setWorkouts([...workouts, newWorkout]);
       setNewWorkoutName("");
+
+      window.location.reload();
     } catch (error) {
       console.error("Error adding new workout:", error);
     }
@@ -117,32 +119,36 @@ const Workouts: React.FC = () => {
         </button>
       </div>
 
-      {workouts.map((workout) => (
-        <section key={workout._id} className="flex flex-col justify-center m-4">
-          <Link
-            href={{
-              pathname: "/exercises",
-              query: { workoutId: workout._id },
-            }}
+      {workouts &&
+        workouts.map((workout) => (
+          <section
+            key={workout._id}
+            className="flex flex-col justify-center m-4"
           >
-            <div className="flex flex-col justify-center items-center border-2 border-solid border-white p-4 rounded-xl m-4">
-              <h2 className="font-bold text-xl">{workout.name}</h2>
+            <Link
+              href={{
+                pathname: "/exercises",
+                query: { workoutId: workout._id },
+              }}
+            >
+              <div className="flex flex-col justify-center items-center border-2 border-solid border-white p-4 rounded-xl m-4">
+                <h2 className="font-bold text-xl">{workout.name}</h2>
 
-              {workout.exercises.map((exercise) => (
-                <div key={exercise._id} className="text-lg">
-                  {exercise.name}
-                </div>
-              ))}
-            </div>
-          </Link>
-          <button
-            onClick={() => deleteWorkout(workout._id)}
-            className="text-red-500 font-bold"
-          >
-            Delete Workout
-          </button>
-        </section>
-      ))}
+                {workout.exercises.map((exercise) => (
+                  <div key={exercise._id} className="text-lg">
+                    {exercise.name}
+                  </div>
+                ))}
+              </div>
+            </Link>
+            <button
+              onClick={() => deleteWorkout(workout._id)}
+              className="text-red-500 font-bold"
+            >
+              Delete Workout
+            </button>
+          </section>
+        ))}
     </main>
   );
 };

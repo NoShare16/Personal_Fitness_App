@@ -83,6 +83,8 @@ const Exercises: React.FC = (exercise) => {
       const newExercise = await response.json();
       setExercises([...exercises, newExercise]);
       setNewExerciseName("");
+
+      window.location.reload();
     } catch (error) {
       console.error("Error adding new exercise:", error);
     }
