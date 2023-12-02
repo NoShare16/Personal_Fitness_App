@@ -221,44 +221,40 @@ const Exercises: React.FC = (exercise) => {
                 >
                   Delete
                 </button>
-                <label>
-                  <div className="flex justify-around">
-                    <span className="text-teal-300 p-2 w-60">Weight(kg):</span>
-                    <input
-                      type="number"
-                      value={set.weight}
-                      onChange={(e) =>
-                        handleSetChange(
-                          exercise._id,
-                          index,
-                          "weight",
-                          Number(e.target.value)
-                        )
-                      }
-                      className="bg-black text-teal-300 p-1 border border-solid rounded w-full"
-                    />
-                    <input type="checkbox" className="m-2 w-9" />
-                  </div>
-                </label>
-                <label>
-                  <div className="flex justify-around">
-                    <span className="text-cyan-300 p-2 w-60">Reps:</span>
-                    <input
-                      type="number"
-                      value={set.reps}
-                      onChange={(e) =>
-                        handleSetChange(
-                          exercise._id,
-                          index,
-                          "reps",
-                          Number(e.target.value)
-                        )
-                      }
-                      className="bg-black text-cyan-300 p-1 border border-solid rounded w-full"
-                    />
-                    <input type="checkbox" className="m-2 w-9" />
-                  </div>
-                </label>
+
+                <div className="flex justify-around">
+                  <span className="text-teal-300 p-2 w-60">Weight(kg):</span>
+                  <input
+                    type="number"
+                    value={set.weight}
+                    onChange={(e) =>
+                      handleSetChange(
+                        exercise._id,
+                        index,
+                        "weight",
+                        Number(e.target.value)
+                      )
+                    }
+                    className="bg-black text-teal-300 p-1 border border-solid rounded w-full"
+                  />
+                </div>
+
+                <div className="flex justify-around">
+                  <span className="text-cyan-300 p-2 w-60">Reps:</span>
+                  <input
+                    type="number"
+                    value={set.reps}
+                    onChange={(e) =>
+                      handleSetChange(
+                        exercise._id,
+                        index,
+                        "reps",
+                        Number(e.target.value)
+                      )
+                    }
+                    className="bg-black text-cyan-300 p-1 border border-solid rounded w-full"
+                  />
+                </div>
               </div>
             </div>
           ))}
