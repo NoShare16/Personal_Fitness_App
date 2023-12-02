@@ -5,8 +5,8 @@ import Category from "../../../database/category.models";
 export async function POST(request) {
   const { name } = await request.json();
   await connectDb();
-  await Category.create({ name });
-  return NextResponse.json({ message: "Category created" }, { status: 201 });
+  const newCategory = await Category.create({ name });
+  return NextResponse.json({ category: newCategory }, { status: 201 });
 }
 
 export async function GET() {

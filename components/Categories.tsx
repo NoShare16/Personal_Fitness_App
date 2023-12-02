@@ -44,8 +44,17 @@ const Categories = () => {
         return;
       }
 
-      const newCategory = await response.json();
-      setCategories([...categories, newCategory]);
+      const responseData = await response.json();
+      const createdCategory = responseData.category;
+
+      console.log("New category:", createdCategory);
+
+      if (createdCategory && createdCategory._id) {
+        setCategories([...categories, createdCategory]);
+      } else {
+        console.error("New category does not have a unique _id.");
+      }
+
       setNewCategoryName("");
     } catch (error) {
       console.error("Error adding new category:", error);
