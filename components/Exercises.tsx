@@ -237,6 +237,7 @@ const Exercises: React.FC = (exercise) => {
                     }
                     className="bg-black text-teal-300 p-1 border border-solid rounded w-full"
                   />
+                  <input type="checkbox" className="m-2 w-9" />
                 </div>
 
                 <div className="flex justify-around">
@@ -254,6 +255,7 @@ const Exercises: React.FC = (exercise) => {
                     }
                     className="bg-black text-cyan-300 p-1 border border-solid rounded w-full"
                   />
+                  <input type="checkbox" className="m-2 w-9" />
                 </div>
               </div>
             </div>
