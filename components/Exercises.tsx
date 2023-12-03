@@ -225,16 +225,13 @@ const Exercises: React.FC = (exercise) => {
                 <div className="flex justify-around">
                   <span className="text-teal-300 p-2 w-60">Weight(kg):</span>
                   <input
-                    type="number"
-                    value={set.weight}
-                    onChange={(e) =>
-                      handleSetChange(
-                        exercise._id,
-                        index,
-                        "weight",
-                        Number(e.target.value)
-                      )
-                    }
+                    type="text"
+                    value={set.weight.toString()}
+                    onChange={(e) => {
+                      const newWeight =
+                        e.target.value === "" ? 0 : Number(e.target.value);
+                      handleSetChange(exercise._id, index, "weight", newWeight);
+                    }}
                     className="bg-black text-teal-300 p-1 border border-solid rounded w-full"
                   />
                   <input type="checkbox" className="m-2 w-9" />
@@ -243,18 +240,16 @@ const Exercises: React.FC = (exercise) => {
                 <div className="flex justify-around">
                   <span className="text-cyan-300 p-2 w-60">Reps:</span>
                   <input
-                    type="number"
-                    value={set.reps}
-                    onChange={(e) =>
-                      handleSetChange(
-                        exercise._id,
-                        index,
-                        "reps",
-                        Number(e.target.value)
-                      )
-                    }
+                    type="text"
+                    value={set.reps.toString()}
+                    onChange={(e) => {
+                      const newReps =
+                        e.target.value === "" ? 0 : Number(e.target.value);
+                      handleSetChange(exercise._id, index, "reps", newReps);
+                    }}
                     className="bg-black text-cyan-300 p-1 border border-solid rounded w-full"
                   />
+
                   <input type="checkbox" className="m-2 w-9" />
                 </div>
               </div>
